@@ -1,5 +1,5 @@
 ---
-title: "YOUR NAME" 
+title: Saya Kondo 
 about:
   template: jolla  # jolla  trestles  solana  marquee  broadside
   image: img/profile.png
@@ -9,13 +9,13 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://linkedin.com/in/saya-kondo-b88a57314
     - icon: github
       text: GitHub
-      href: https://github.com
+      href: https://github.com/syknd
     - icon: file-earmark-pdf
       text: Resumé
-      href: resume-example.pdf
+      href: saya_kondo_resume.pdf
       target: _blank
     - icon: mailbox
       text: Email
