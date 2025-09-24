@@ -3,14 +3,21 @@ project:
   output-dir: "." 
 
 website:
-  title: "YOUR NAME"
+  title: "Saya Kondo"
   navbar:
     # background: "#1c4982"
     pinned: true
     left:
       - text: Blog
         href: blog-listing.qmd
-            
+      - text: Project
+        href: danl_proj_nba.ipynb
+      - menu: 
+        - text: Pandas Basics
+          href: pandas_basics.ipynb
+        - text: Seaborn Basics
+          href: seaborn_basics.ipynb
+          
   page-footer: 
     center: "Powered with GitHub, Quarto, and Jupyter Notebook<br>© YOUR NAME, 2025"
 

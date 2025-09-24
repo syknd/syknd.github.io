@@ -2,7 +2,7 @@
 title: Saya Kondo 
 about:
   template: jolla  # jolla  trestles  solana  marquee  broadside
-  image: img/profile.png
+  image: img/headshot.jpg
   image-width: 16em
   image-shape: round # rectangle  round  rounded
   
@@ -19,21 +19,21 @@ about:
       target: _blank
     - icon: mailbox
       text: Email
-      href: mailto:YOUR_EMAIL@geneseo.edu
+      href: mailto:sk57@geneseo.edu
 
 ---
 
 
-Finley Malloc majors in Data Analytics at SUNY Geneseo. When not working on data analytics, Finley enjoys spending time unicycling and playing with her pet iguana.
+Saya Kondo majors in Data Analytics and minors in Marketing and Sustainability Studies at SUNY Geneseo. When not working on data analytics, I enjoy listening to music, cooking, watching movies, and taking pictures with my digital cameras. 
 
 ## Education
 
 State University of New York at Geneseo | Geneseo, NY <br>
-B.S. in Data Analytics | Aug 2022 - May 2026 <br>
-Minor in Economics
+B.S. in Data Analytics | Aug 2024 - May 2026 <br>
+Minor in Marketing and Sustainability Studies
 
 ## Experience
 
-Starbucks Analytics | Data Analyst Intern | May 2024 - Aug 2024
+Media/Data Analytics Intern | June 2025 - Aug 2025
 
 
