@@ -2,6 +2,7 @@
   {
     "listing": "/blog-listing.html",
     "items": [
+      "/posts/ben-jerry/ben-jerry.html",
       "/posts/welcome/index.html",
       "/posts/starwars/starwars_df.html",
       "/posts/py-basic/danl_210_python_basic.html",
