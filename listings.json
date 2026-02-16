@@ -9,5 +9,12 @@
       "/posts/post-with-code/index.html",
       "/posts/holidy-movies/DANL_299_HW3_Part_3.html"
     ]
+  },
+  {
+    "listing": "/posts/Ben & Jerry/index.html",
+    "items": [
+      "/posts/Ben & Jerry/posts/post-with-code/index.html",
+      "/posts/Ben & Jerry/posts/welcome/index.html"
+    ]
   }
 ]

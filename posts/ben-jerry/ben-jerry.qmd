@@ -3,7 +3,7 @@ title: Ben and Jerry Analysis
 author: Saya
 date: 2026-02-15
 categories: [icecream, code, analysis]
-image: ice cream.jpg
+image: "icecream.jpg"
 
 execute: 
   warning: false
