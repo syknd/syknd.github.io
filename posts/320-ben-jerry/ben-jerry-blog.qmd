@@ -1,0 +1,163 @@
+---
+title: "320 : Ben and Jerry Analysis"
+author: Saya
+date: 2026-02-11
+categories: [icecream, code, analysis]
+image: "ben-jerry-320.webp"
+
+execute: 
+  warning: false
+  message: false
+  
+toc: true
+---
+
+## 
+
+```{r}
+#| warning: false
+
+library(tidyverse)
+ice_cream <- read_csv("https://bcdanl.github.io/data/ben-and-jerry-cleaned.csv")
+
+```
+
+## Introduction
+
+This blog post explores Ben & Jerry’s ice cream flavor data. I will examine basic nutrition and rating patterns, identify common flavor names, filter for higher-calorie flavors, compare groups of flavors, and build a regression model to see what factors are associated with flavor ratings.
+
+```{r}
+
+## Descriptive Statistics
+
+library(scales)
+
+summary_table <- ice_cream |>
+  summarise(
+    average_price = mean(priceper1, na.rm = TRUE),
+    median_price = median(priceper1, na.rm = TRUE),
+    sd_price = sd(priceper1, na.rm = TRUE),
+
+    average_household_size = mean(household_size, na.rm = TRUE),
+
+    average_coupon = mean(couponper1, na.rm = TRUE),
+
+    total_purchases = n()
+  ) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "Statistic",
+    values_to = "Value"
+  ) |>
+  mutate(
+    Value = comma(round(Value, 2))
+  )
+
+summary_table
+```
+
+```{r}
+
+## Counting
+
+ice_cream |>
+  count(household_size, sort = TRUE)
+
+# 1. Top flavors
+
+ice_cream |>
+  count(flavor_descr, sort = TRUE) |>
+  slice_head(n = 10)
+
+# 2. Coupon usage
+
+ice_cream |>
+  count(usecoup)
+
+# 3. Household size counts
+
+ice_cream |>
+  count(household_size, sort = TRUE)
+
+```
+
+## Filtering
+
+```{r}
+
+# High income households
+
+ice_cream |>
+  filter(household_income > mean(household_income, na.rm = TRUE))
+
+# Coupon users & Married
+
+ice_cream |>
+  filter(usecoup == "TRUE",
+         married == "TRUE")
+
+# Larger households
+
+ice_cream |>
+  filter(household_size >= 4)
+
+```
+
+## Grouped summaries
+
+```{r}
+
+ice_cream |>
+  group_by(region) |>
+  summarise(
+    average_price = mean(priceper1, na.rm = TRUE),
+    average_income = mean(household_income, na.rm = TRUE),
+    average_coupon = mean(couponper1, na.rm = TRUE)
+  )
+
+```
+
+## A regression model
+
+```{r}
+
+model <- lm(
+  priceper1 ~ household_income + household_size + couponper1,
+  data = ice_cream
+)
+
+summary(model)
+
+```
+
+In this regression model, the outcome variable is "priceper1", which represents the price paid for a Ben & Jerry's ice cream product. The predictors are "household_income", "household_size", and "couponper1".
+
+The results suggest that all three predictors are all statistically significant, because their p-values are smaller than 0.001.
+
+"household_income" has a small negative coefficient (-8.475e-07), meaning that households with higher income tend to pay slightly lower prices on average. However, the effect size is very small.
+
+"household_size" also has a negative relationship with price (-0.02917). This suggests that larger households tend to pay slighlt lower prices per item, possibly because they purchase more efficiently or buy during promotions.
+
+"couponper1" has a positive coefficient (0.2098), meaning purchases associated with larger coupon amounts also tend to have higher listed prices. One possible explanation is that more expensive products receive larger coupons or discounts.
+
+The model’s R-squared value is approximately 0.034, meaning the predictors explain about 3.4% of the variation in ice cream prices. This indicates that although the variables are statistically significant, most of the variation in price is explained by other factors not included in the model.
+
+## Boxplots
+
+```{r}
+
+ggplot(ice_cream, aes(x = region, y = priceper1, fill = region)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(
+    title = "Ben & Jerry's Ice Cream Prices by Region",
+    x = "Region",
+    y = "Price per Item"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none"
+  )
+
+```
+These boxplots compare the distribution of Ben & Jerry’s ice cream prices across regions. The plots show differences in median prices, variability, and possible outliers between regions. East has more wider range, and South has the lowest Median price per item. 
+

@@ -5,3 +5,6 @@
 *.Ruserdata
 /.quarto/
 .Rproj.user
+
+**/*.quarto_ipynb
+.positai
