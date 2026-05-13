@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Saya">
+<meta name="dcterms.date" content="2026-03-02">
+
+<title>320 : Beer Market Analysis – Saya Kondo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Saya Kondo</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog-listing.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../danl_proj_nba.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="../../pandas_basics.html">
+ <span class="dropdown-text">Pandas Basics</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../seaborn_basics.html">
+ <span class="dropdown-text">Seaborn Basics</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">320 : Beer Market Analysis</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">beer</div>
+                <div class="quarto-category">code</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Saya </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 2, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive Statistics</a></li>
+  <li><a href="#counting" id="toc-counting" class="nav-link" data-scroll-target="#counting">Counting</a></li>
+  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering">Filtering</a></li>
+  <li><a href="#grouped-summaries" id="toc-grouped-summaries" class="nav-link" data-scroll-target="#grouped-summaries">Grouped summaries</a></li>
+  <li><a href="#regression-models" id="toc-regression-models" class="nav-link" data-scroll-target="#regression-models">Regression models</a></li>
+  <li><a href="#ggplot-visualization" id="toc-ggplot-visualization" class="nav-link" data-scroll-target="#ggplot-visualization">ggplot visualization</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This blog post explores the beer_markets dataset, which contains information about beer purchases, pricing, packaging, geographic markets, and household demographics.</p>
+<p>The analysis focuses on patterns in consumer beer purchasing behavior, including how beer volume, promotions, brands, and household characteristics relate to beer spending and pricing.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>beer_markets <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://bcdanl.github.io/data/beer_markets_all_cleaned.csv"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="descriptive-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(beer_markets)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "household"        "X_purchase_desc"  "quantity"         "brand"           
+ [5] "dollar_spent"     "beer_floz"        "price_floz"       "container"       
+ [9] "promo"            "region"           "state"            "market"          
+[13] "buyertype"        "income"           "childrenUnder6"   "children6to17"   
+[17] "age"              "employment"       "degree"           "occupation"      
+[21] "ethnic"           "microwave"        "dishwasher"       "tvcable"         
+[25] "singlefamilyhome" "npeople"         </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>beer_markets <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_spending =</span> <span class="fu">mean</span>(dollar_spent, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_quantity =</span> <span class="fu">mean</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_price =</span> <span class="fu">mean</span>(price_floz, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  avg_spending avg_quantity avg_price
+         &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1         13.8         1.32    0.0560</code></pre>
+</div>
+</div>
+</section>
+<section id="counting" class="level2">
+<h2 class="anchored" data-anchor-id="counting">Counting</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Popular brand</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>beer_markets <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(brand, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  brand             n
+  &lt;chr&gt;         &lt;int&gt;
+1 BUD_LIGHT     21592
+2 MILLER_LITE   17159
+3 COORS_LIGHT   13074
+4 NATURAL_LIGHT 12616
+5 BUSCH_LIGHT    8674</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering" class="level2">
+<h2 class="anchored" data-anchor-id="filtering">Filtering</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Promotional purchases</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>promo_beers <span class="ot">&lt;-</span> beer_markets <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(promo <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>promo_beers <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_spending =</span> <span class="fu">mean</span>(dollar_spent, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  avg_spending
+         &lt;dbl&gt;
+1         15.4</code></pre>
+</div>
+</div>
+</section>
+<section id="grouped-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="grouped-summaries">Grouped summaries</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>beer_markets <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_spending =</span> <span class="fu">mean</span>(dollar_spent, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_quantity =</span> <span class="fu">mean</span>(quantity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  region  avg_spending avg_quantity
+  &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;
+1 CENTRAL         13.7         1.27
+2 EAST            15.3         1.46
+3 SOUTH           13.0         1.35
+4 WEST            15.3         1.24</code></pre>
+</div>
+</div>
+</section>
+<section id="regression-models" class="level2">
+<h2 class="anchored" data-anchor-id="regression-models">Regression models</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(price_floz) <span class="sc">~</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    market <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    brand <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    container <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(beer_floz),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> beer_markets</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(price_floz) <span class="sc">~</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    market <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    brand <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    container <span class="sc">+</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(beer_floz) <span class="sc">+</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    brand<span class="sc">:</span><span class="fu">log</span>(beer_floz),</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> beer_markets</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  model1,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  model2,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"text"</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+=================================================================================================
+                                                           Dependent variable:                   
+                                        ---------------------------------------------------------
+                                                             log(price_floz)                     
+                                                    (1)                          (2)             
+-------------------------------------------------------------------------------------------------
+marketATLANTA                                     0.057***                     0.053***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketBALTIMORE                                   0.068***                     0.069***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketBIRMINGHAM                                  0.091***                     0.096***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketBOSTON                                      0.096***                     0.093***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketBUFFALO-ROCHESTER                          -0.033***                    -0.034***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketCHARLOTTE                                    -0.007                       -0.013           
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketCHICAGO                                    -0.038***                    -0.044***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketCINCINNATI                                  0.052***                     0.045***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketCLEVELAND                                   0.025***                     0.018**           
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketCOLUMBUS                                    0.041***                     0.036***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketDALLAS                                      0.176***                     0.183***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketDENVER                                      0.085***                     0.081***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketDES_MOINES                                  0.109***                     0.104***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketDETROIT                                     0.057***                     0.051***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketEXURBAN_NJ                                  0.195***                     0.187***          
+                                                  (0.014)                      (0.014)           
+                                                                                                 
+marketEXURBAN_NY                                  0.091***                     0.086***          
+                                                  (0.019)                      (0.019)           
+                                                                                                 
+marketGRAND_RAPIDS                                0.053***                     0.047***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketHARTFORD-NEW_HAVEN                          0.108***                     0.104***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketHOUSTON                                     0.081***                     0.077***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketINDIANAPOLIS                                 0.016*                       0.013            
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketJACKSONVILLE                                0.087***                     0.079***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketKANSAS_CITY                                 0.044***                     0.038***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketLITTLE_ROCK                                 0.062***                     0.057***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketLOS_ANGELES                                  0.002                        -0.006           
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketLOUISVILLE                                  0.031***                     0.024**           
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketMEMPHIS                                     0.095***                     0.092***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketMIAMI                                       0.079***                     0.076***          
+                                                  (0.008)                      (0.008)           
+                                                                                                 
+marketMILWAUKEE                                    0.002                        -0.001           
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketMINNEAPOLIS                                 0.105***                     0.104***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketNASHVILLE                                   0.113***                     0.111***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketNEW_ORLEANS-MOBILE                          0.098***                     0.087***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketOKLAHOMA_CITY-TULSA                         0.115***                     0.110***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketOMAHA                                       0.094***                     0.090***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketORLANDO                                     0.072***                     0.069***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketPHILADELPHIA                                0.082***                     0.081***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketPHOENIX                                     0.111***                     0.111***          
+                                                  (0.009)                      (0.008)           
+                                                                                                 
+marketPITTSBURGH                                  0.066***                     0.062***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketPORTLAND                                    0.083***                     0.079***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketRALEIGH-DURHAM                              0.053***                     0.051***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRICHMOND                                     0.007                        0.002            
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRURAL_ALABAMA                               0.124***                     0.121***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketRURAL_ARKANSAS                              0.140***                     0.140***          
+                                                  (0.015)                      (0.015)           
+                                                                                                 
+marketRURAL_CALIFORNIA                             0.012                        0.007            
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketRURAL_COLORADO                              0.160***                     0.157***          
+                                                  (0.038)                      (0.038)           
+                                                                                                 
+marketRURAL_FLORIDA                               0.032***                      0.021*           
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketRURAL_GEORGIA                               0.105***                     0.099***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketRURAL_IDAHO                                 0.115***                     0.107***          
+                                                  (0.016)                      (0.015)           
+                                                                                                 
+marketRURAL_ILLINOIS                              -0.016*                      -0.019**          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRURAL_INDIANA                               0.039***                     0.038***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketRURAL_IOWA                                  0.032***                     0.027***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRURAL_KANSAS                                0.102***                     0.100***          
+                                                  (0.015)                      (0.015)           
+                                                                                                 
+marketRURAL_KENTUCKY                              0.114***                     0.111***          
+                                                  (0.014)                      (0.014)           
+                                                                                                 
+marketRURAL_LOUISIANA                             0.041***                     0.035***          
+                                                  (0.012)                      (0.011)           
+                                                                                                 
+marketRURAL_MAINE                                 0.051***                     0.046***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketRURAL_MICHIGAN                              0.046***                     0.041***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketRURAL_MINNESOTA                             0.137***                     0.137***          
+                                                  (0.016)                      (0.016)           
+                                                                                                 
+marketRURAL_MISSISSIPPI                            0.012                        0.005            
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketRURAL_MISSOURI                              0.090***                     0.087***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketRURAL_MONTANA                               0.095***                     0.090***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketRURAL_NEBRASKA                              0.102***                     0.100***          
+                                                  (0.018)                      (0.018)           
+                                                                                                 
+marketRURAL_NEVADA                                 0.011                        0.009            
+                                                  (0.011)                      (0.010)           
+                                                                                                 
+marketRURAL_NEW_HAMPSHIRE                          0.017                        0.005            
+                                                  (0.035)                      (0.035)           
+                                                                                                 
+marketRURAL_NEW_MEXICO                            0.130***                     0.124***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketRURAL_NEW_YORK                               -0.060                       -0.060           
+                                                  (0.048)                      (0.048)           
+                                                                                                 
+marketRURAL_NORTH_CAROLINA                        -0.022**                      0.003            
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketRURAL_NORTH_DAKOTA                          0.180***                     0.176***          
+                                                  (0.017)                      (0.017)           
+                                                                                                 
+marketRURAL_OHIO                                  0.066***                     0.062***          
+                                                  (0.013)                      (0.013)           
+                                                                                                 
+marketRURAL_OKLAHOMA                              0.112***                     0.110***          
+                                                  (0.024)                      (0.024)           
+                                                                                                 
+marketRURAL_OREGON                                 -0.008                       -0.014           
+                                                  (0.029)                      (0.028)           
+                                                                                                 
+marketRURAL_PENNSYLVANIA                          0.102***                     0.100***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketRURAL_SOUTH_CAROLINA                        0.022**                      0.019**           
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRURAL_SOUTH_DAKOTA                          0.050***                     0.046***          
+                                                  (0.016)                      (0.016)           
+                                                                                                 
+marketRURAL_TENNESSEE                             0.134***                     0.132***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketRURAL_TEXAS                                 0.137***                     0.134***          
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRURAL_VERMONT                               0.056***                     0.043***          
+                                                  (0.016)                      (0.016)           
+                                                                                                 
+marketRURAL_VIRGINIA                               -0.010                       -0.014           
+                                                  (0.015)                      (0.015)           
+                                                                                                 
+marketRURAL_WASHINGTON                            0.076***                     0.072***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketRURAL_WEST_VIRGINIA                        -0.069***                    -0.075***          
+                                                  (0.013)                      (0.013)           
+                                                                                                 
+marketRURAL_WISCONSIN                              0.009                        0.005            
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketRURAL_WYOMING                               0.114***                     0.110***          
+                                                  (0.028)                      (0.028)           
+                                                                                                 
+marketSACRAMENTO                                   -0.004                       -0.007           
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketSALT_LAKE_CITY                              0.084***                     0.076***          
+                                                  (0.012)                      (0.012)           
+                                                                                                 
+marketSAN_ANTONIO                                 0.108***                     0.101***          
+                                                  (0.008)                      (0.008)           
+                                                                                                 
+marketSAN_DIEGO                                    -0.015                      -0.017*           
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketSAN_FRANCISCO                               0.041***                     0.036***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketSEATTLE                                     0.077***                     0.067***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketST_LOUIS                                     0.014                        0.009            
+                                                  (0.009)                      (0.009)           
+                                                                                                 
+marketSURBURBAN_NJ                               -0.036***                    -0.040***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketSURBURBAN_NY                                0.073***                     0.069***          
+                                                  (0.011)                      (0.011)           
+                                                                                                 
+marketSYRACUSE                                   -0.068***                    -0.075***          
+                                                  (0.013)                      (0.012)           
+                                                                                                 
+marketTAMPA                                       0.072***                     0.067***          
+                                                  (0.008)                      (0.008)           
+                                                                                                 
+marketURBAN_NY                                    0.131***                     0.129***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+marketWASHINGTON_DC                               0.069***                     0.062***          
+                                                  (0.010)                      (0.010)           
+                                                                                                 
+brandBUSCH_LIGHT                                 -0.261***                    -0.216***          
+                                                  (0.002)                      (0.018)           
+                                                                                                 
+brandCOORS_LIGHT                                  -0.004**                      0.023            
+                                                  (0.002)                      (0.015)           
+                                                                                                 
+brandMILLER_LITE                                 -0.013***                     0.070***          
+                                                  (0.002)                      (0.013)           
+                                                                                                 
+brandNATURAL_LIGHT                               -0.319***                    -0.594***          
+                                                  (0.002)                      (0.014)           
+                                                                                                 
+containerKEG                                     -0.051***                     -0.033**          
+                                                  (0.016)                      (0.016)           
+                                                                                                 
+containerKEG_BALL                                -0.405***                    -0.398***          
+                                                  (0.120)                      (0.120)           
+                                                                                                 
+containerNON_REFILLABLE_BOTTLE                    0.053***                     0.052***          
+                                                  (0.002)                      (0.002)           
+                                                                                                 
+containerNON_REFILLABLE_BOTTLE_ALUMINUM           0.175***                     0.172***          
+                                                  (0.013)                      (0.013)           
+                                                                                                 
+containerNON_REFILLABLE_BOTTLE_PLASTIC           -0.021***                    -0.030***          
+                                                  (0.007)                      (0.007)           
+                                                                                                 
+containerREFILLABLE_BOTTLE                        0.359***                     0.354***          
+                                                  (0.014)                      (0.014)           
+                                                                                                 
+log(beer_floz)                                   -0.142***                    -0.147***          
+                                                  (0.001)                      (0.002)           
+                                                                                                 
+brandBUSCH_LIGHT:log(beer_floz)                                                -0.008**          
+                                                                               (0.003)           
+                                                                                                 
+brandCOORS_LIGHT:log(beer_floz)                                                -0.005*           
+                                                                               (0.003)           
+                                                                                                 
+brandMILLER_LITE:log(beer_floz)                                               -0.015***          
+                                                                               (0.002)           
+                                                                                                 
+brandNATURAL_LIGHT:log(beer_floz)                                              0.051***          
+                                                                               (0.003)           
+                                                                                                 
+Constant                                         -2.136***                    -2.107***          
+                                                  (0.009)                      (0.012)           
+                                                                                                 
+-------------------------------------------------------------------------------------------------
+Observations                                       73,115                       73,115           
+R2                                                 0.553                        0.557            
+Adjusted R2                                        0.553                        0.557            
+Residual Std. Error                          0.170 (df = 73010)           0.169 (df = 73006)     
+F Statistic                             869.308*** (df = 104; 73010) 851.503*** (df = 108; 73006)
+=================================================================================================
+Note:                                                                 *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model 1"</span> <span class="ot">=</span> model1,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model 2"</span> <span class="ot">=</span> model2</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">statistic =</span> <span class="st">"std.error"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">stars =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">output =</span> <span class="st">"markdown"</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 58%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Model 1</th>
+<th>Model 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td>-2.136***</td>
+<td>-2.107***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketATLANTA</td>
+<td>0.057***</td>
+<td>0.053***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketBALTIMORE</td>
+<td>0.068***</td>
+<td>0.069***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketBIRMINGHAM</td>
+<td>0.091***</td>
+<td>0.096***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketBOSTON</td>
+<td>0.096***</td>
+<td>0.093***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketBUFFALO-ROCHESTER</td>
+<td>-0.033**</td>
+<td>-0.034***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketCHARLOTTE</td>
+<td>-0.007</td>
+<td>-0.013</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketCHICAGO</td>
+<td>-0.038***</td>
+<td>-0.044***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketCINCINNATI</td>
+<td>0.052***</td>
+<td>0.045***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketCLEVELAND</td>
+<td>0.025**</td>
+<td>0.018*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketCOLUMBUS</td>
+<td>0.041***</td>
+<td>0.036***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketDALLAS</td>
+<td>0.176***</td>
+<td>0.183***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketDENVER</td>
+<td>0.085***</td>
+<td>0.081***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketDES_MOINES</td>
+<td>0.109***</td>
+<td>0.104***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketDETROIT</td>
+<td>0.057***</td>
+<td>0.051***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketEXURBAN_NJ</td>
+<td>0.195***</td>
+<td>0.187***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.014)</td>
+<td>(0.014)</td>
+</tr>
+<tr class="odd">
+<td>marketEXURBAN_NY</td>
+<td>0.091***</td>
+<td>0.086***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.019)</td>
+<td>(0.019)</td>
+</tr>
+<tr class="odd">
+<td>marketGRAND_RAPIDS</td>
+<td>0.053***</td>
+<td>0.047***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketHARTFORD-NEW_HAVEN</td>
+<td>0.108***</td>
+<td>0.104***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketHOUSTON</td>
+<td>0.081***</td>
+<td>0.077***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketINDIANAPOLIS</td>
+<td>0.016+</td>
+<td>0.013</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketJACKSONVILLE</td>
+<td>0.087***</td>
+<td>0.079***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketKANSAS_CITY</td>
+<td>0.044***</td>
+<td>0.038***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketLITTLE_ROCK</td>
+<td>0.062***</td>
+<td>0.057***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketLOS_ANGELES</td>
+<td>0.002</td>
+<td>-0.006</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketLOUISVILLE</td>
+<td>0.031**</td>
+<td>0.024*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketMEMPHIS</td>
+<td>0.095***</td>
+<td>0.092***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketMIAMI</td>
+<td>0.079***</td>
+<td>0.076***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.008)</td>
+<td>(0.008)</td>
+</tr>
+<tr class="odd">
+<td>marketMILWAUKEE</td>
+<td>0.002</td>
+<td>-0.001</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketMINNEAPOLIS</td>
+<td>0.105***</td>
+<td>0.104***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketNASHVILLE</td>
+<td>0.113***</td>
+<td>0.111***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketNEW_ORLEANS-MOBILE</td>
+<td>0.098***</td>
+<td>0.087***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketOKLAHOMA_CITY-TULSA</td>
+<td>0.115***</td>
+<td>0.110***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketOMAHA</td>
+<td>0.094***</td>
+<td>0.090***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketORLANDO</td>
+<td>0.072***</td>
+<td>0.069***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketPHILADELPHIA</td>
+<td>0.082***</td>
+<td>0.081***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketPHOENIX</td>
+<td>0.111***</td>
+<td>0.111***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.008)</td>
+</tr>
+<tr class="odd">
+<td>marketPITTSBURGH</td>
+<td>0.066***</td>
+<td>0.062***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketPORTLAND</td>
+<td>0.083***</td>
+<td>0.079***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRALEIGH-DURHAM</td>
+<td>0.053***</td>
+<td>0.051***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRICHMOND</td>
+<td>0.007</td>
+<td>0.002</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_ALABAMA</td>
+<td>0.124***</td>
+<td>0.121***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_ARKANSAS</td>
+<td>0.140***</td>
+<td>0.140***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.015)</td>
+<td>(0.015)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_CALIFORNIA</td>
+<td>0.012</td>
+<td>0.007</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_COLORADO</td>
+<td>0.160***</td>
+<td>0.157***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.038)</td>
+<td>(0.038)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_FLORIDA</td>
+<td>0.032**</td>
+<td>0.021+</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_GEORGIA</td>
+<td>0.105***</td>
+<td>0.099***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_IDAHO</td>
+<td>0.115***</td>
+<td>0.107***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.016)</td>
+<td>(0.015)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_ILLINOIS</td>
+<td>-0.016+</td>
+<td>-0.019*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_INDIANA</td>
+<td>0.039***</td>
+<td>0.038***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_IOWA</td>
+<td>0.032***</td>
+<td>0.027**</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_KANSAS</td>
+<td>0.102***</td>
+<td>0.100***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.015)</td>
+<td>(0.015)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_KENTUCKY</td>
+<td>0.114***</td>
+<td>0.111***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.014)</td>
+<td>(0.014)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_LOUISIANA</td>
+<td>0.041***</td>
+<td>0.035**</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_MAINE</td>
+<td>0.051***</td>
+<td>0.046***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_MICHIGAN</td>
+<td>0.046***</td>
+<td>0.041***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_MINNESOTA</td>
+<td>0.137***</td>
+<td>0.137***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.016)</td>
+<td>(0.016)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_MISSISSIPPI</td>
+<td>0.012</td>
+<td>0.005</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_MISSOURI</td>
+<td>0.090***</td>
+<td>0.087***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_MONTANA</td>
+<td>0.095***</td>
+<td>0.090***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NEBRASKA</td>
+<td>0.102***</td>
+<td>0.100***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.018)</td>
+<td>(0.018)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NEVADA</td>
+<td>0.011</td>
+<td>0.009</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NEW_HAMPSHIRE</td>
+<td>0.017</td>
+<td>0.005</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.035)</td>
+<td>(0.035)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NEW_MEXICO</td>
+<td>0.130***</td>
+<td>0.124***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NEW_YORK</td>
+<td>-0.060</td>
+<td>-0.060</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.048)</td>
+<td>(0.048)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NORTH_CAROLINA</td>
+<td>-0.022*</td>
+<td>0.003</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_NORTH_DAKOTA</td>
+<td>0.180***</td>
+<td>0.176***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.017)</td>
+<td>(0.017)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_OHIO</td>
+<td>0.066***</td>
+<td>0.062***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.013)</td>
+<td>(0.013)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_OKLAHOMA</td>
+<td>0.112***</td>
+<td>0.110***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.024)</td>
+<td>(0.024)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_OREGON</td>
+<td>-0.008</td>
+<td>-0.014</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.029)</td>
+<td>(0.028)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_PENNSYLVANIA</td>
+<td>0.102***</td>
+<td>0.100***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_SOUTH_CAROLINA</td>
+<td>0.022*</td>
+<td>0.019*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_SOUTH_DAKOTA</td>
+<td>0.050**</td>
+<td>0.046**</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.016)</td>
+<td>(0.016)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_TENNESSEE</td>
+<td>0.134***</td>
+<td>0.132***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_TEXAS</td>
+<td>0.137***</td>
+<td>0.134***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_VERMONT</td>
+<td>0.056***</td>
+<td>0.043**</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.016)</td>
+<td>(0.016)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_VIRGINIA</td>
+<td>-0.010</td>
+<td>-0.014</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.015)</td>
+<td>(0.015)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_WASHINGTON</td>
+<td>0.076***</td>
+<td>0.072***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_WEST_VIRGINIA</td>
+<td>-0.069***</td>
+<td>-0.075***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.013)</td>
+<td>(0.013)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_WISCONSIN</td>
+<td>0.009</td>
+<td>0.005</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketRURAL_WYOMING</td>
+<td>0.114***</td>
+<td>0.110***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.028)</td>
+<td>(0.028)</td>
+</tr>
+<tr class="odd">
+<td>marketSACRAMENTO</td>
+<td>-0.004</td>
+<td>-0.007</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketSALT_LAKE_CITY</td>
+<td>0.084***</td>
+<td>0.076***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.012)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketSAN_ANTONIO</td>
+<td>0.108***</td>
+<td>0.101***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.008)</td>
+<td>(0.008)</td>
+</tr>
+<tr class="odd">
+<td>marketSAN_DIEGO</td>
+<td>-0.015</td>
+<td>-0.017+</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketSAN_FRANCISCO</td>
+<td>0.041***</td>
+<td>0.036***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketSEATTLE</td>
+<td>0.077***</td>
+<td>0.067***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketST_LOUIS</td>
+<td>0.014</td>
+<td>0.009</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.009)</td>
+<td>(0.009)</td>
+</tr>
+<tr class="odd">
+<td>marketSURBURBAN_NJ</td>
+<td>-0.036**</td>
+<td>-0.040***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketSURBURBAN_NY</td>
+<td>0.073***</td>
+<td>0.069***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.011)</td>
+<td>(0.011)</td>
+</tr>
+<tr class="odd">
+<td>marketSYRACUSE</td>
+<td>-0.068***</td>
+<td>-0.075***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.013)</td>
+<td>(0.012)</td>
+</tr>
+<tr class="odd">
+<td>marketTAMPA</td>
+<td>0.072***</td>
+<td>0.067***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.008)</td>
+<td>(0.008)</td>
+</tr>
+<tr class="odd">
+<td>marketURBAN_NY</td>
+<td>0.131***</td>
+<td>0.129***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>marketWASHINGTON_DC</td>
+<td>0.069***</td>
+<td>0.062***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.010)</td>
+<td>(0.010)</td>
+</tr>
+<tr class="odd">
+<td>brandBUSCH_LIGHT</td>
+<td>-0.261***</td>
+<td>-0.216***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.002)</td>
+<td>(0.018)</td>
+</tr>
+<tr class="odd">
+<td>brandCOORS_LIGHT</td>
+<td>-0.004*</td>
+<td>0.023</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.002)</td>
+<td>(0.015)</td>
+</tr>
+<tr class="odd">
+<td>brandMILLER_LITE</td>
+<td>-0.013***</td>
+<td>0.070***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.002)</td>
+<td>(0.013)</td>
+</tr>
+<tr class="odd">
+<td>brandNATURAL_LIGHT</td>
+<td>-0.319***</td>
+<td>-0.594***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.002)</td>
+<td>(0.014)</td>
+</tr>
+<tr class="odd">
+<td>containerKEG</td>
+<td>-0.051**</td>
+<td>-0.033*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.016)</td>
+<td>(0.016)</td>
+</tr>
+<tr class="odd">
+<td>containerKEG_BALL</td>
+<td>-0.405***</td>
+<td>-0.398***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.120)</td>
+<td>(0.120)</td>
+</tr>
+<tr class="odd">
+<td>containerNON_REFILLABLE_BOTTLE</td>
+<td>0.053***</td>
+<td>0.052***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.002)</td>
+<td>(0.002)</td>
+</tr>
+<tr class="odd">
+<td>containerNON_REFILLABLE_BOTTLE_ALUMINUM</td>
+<td>0.175***</td>
+<td>0.172***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.013)</td>
+<td>(0.013)</td>
+</tr>
+<tr class="odd">
+<td>containerNON_REFILLABLE_BOTTLE_PLASTIC</td>
+<td>-0.021**</td>
+<td>-0.030***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.007)</td>
+<td>(0.007)</td>
+</tr>
+<tr class="odd">
+<td>containerREFILLABLE_BOTTLE</td>
+<td>0.359***</td>
+<td>0.354***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.014)</td>
+<td>(0.014)</td>
+</tr>
+<tr class="odd">
+<td>log(beer_floz)</td>
+<td>-0.142***</td>
+<td>-0.147***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.001)</td>
+<td>(0.002)</td>
+</tr>
+<tr class="odd">
+<td>brandBUSCH_LIGHT × log(beer_floz)</td>
+<td></td>
+<td>-0.008*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>(0.003)</td>
+</tr>
+<tr class="odd">
+<td>brandCOORS_LIGHT × log(beer_floz)</td>
+<td></td>
+<td>-0.005+</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>(0.003)</td>
+</tr>
+<tr class="odd">
+<td>brandMILLER_LITE × log(beer_floz)</td>
+<td></td>
+<td>-0.015***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>(0.002)</td>
+</tr>
+<tr class="odd">
+<td>brandNATURAL_LIGHT × log(beer_floz)</td>
+<td></td>
+<td>0.051***</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>(0.003)</td>
+</tr>
+<tr class="odd">
+<td>Num.Obs.</td>
+<td>73115</td>
+<td>73115</td>
+</tr>
+<tr class="even">
+<td>R2</td>
+<td>0.553</td>
+<td>0.557</td>
+</tr>
+<tr class="odd">
+<td>R2 Adj.</td>
+<td>0.553</td>
+<td>0.557</td>
+</tr>
+<tr class="even">
+<td>AIC</td>
+<td>-477676.3</td>
+<td>-478362.7</td>
+</tr>
+<tr class="odd">
+<td>BIC</td>
+<td>-476701.2</td>
+<td>-477350.7</td>
+</tr>
+<tr class="even">
+<td>Log.Lik.</td>
+<td>25943.582</td>
+<td>26290.753</td>
+</tr>
+<tr class="odd">
+<td>F</td>
+<td>869.308</td>
+<td>851.503</td>
+</tr>
+<tr class="even">
+<td>RMSE</td>
+<td>0.17</td>
+<td>0.17</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td colspan="3"><ul>
+<li>p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</li>
+</ul></td>
+</tr>
+</tfoot>
+
+</table>
+</div>
+</div>
+</section>
+<section id="ggplot-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="ggplot-visualization">ggplot visualization</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(price_floz) <span class="sc">~</span> <span class="fu">log</span>(beer_floz)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>log(price_floz) ~ log(beer_floz)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>beer_markets <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    container <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"CAN"</span>, <span class="st">"NON_REFILLABLE_BOTTLE"</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    price_floz <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    beer_floz <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> beer_floz, <span class="at">y =</span> price_floz)) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Beer Volume and Price per Fluid Ounce"</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Larger beer purchases tend to have lower unit prices"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Beer Volume (fluid ounces, log scale)"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Price per Fluid Ounce (log scale)"</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="danl_320_beer_market_analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot shows a negative relationship between beer volume and price per fluid ounce. Larger beer purchases tend to have lower unit prices, suggesting a quantity discount pattern in beer markets.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Powered with GitHub, Quarto, and Jupyter Notebook<br>© YOUR NAME, 2025</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,160 @@
+---
+title: "320 : Beer Market Analysis"
+author: Saya
+date: 2026-03-02
+categories: [beer, code, analysis]
+image: beer_image.jpg
+
+execute: 
+  warning: false
+  message: false
+  
+toc: true
+---
+
+## Introduction
+
+This blog post explores the beer_markets dataset, which contains information about beer purchases, pricing, packaging, geographic markets, and household demographics.
+
+The analysis focuses on patterns in consumer beer purchasing behavior, including how beer volume, promotions, brands, and household characteristics relate to beer spending and pricing.
+
+```{r}
+
+library(tidyverse)
+
+beer_markets <- read_csv(
+  "https://bcdanl.github.io/data/beer_markets_all_cleaned.csv"
+)
+
+```
+
+## Descriptive Statistics
+
+```{r}
+
+colnames(beer_markets)
+
+beer_markets %>%
+  summarise(
+    avg_spending = mean(dollar_spent, na.rm = TRUE),
+    avg_quantity = mean(quantity, na.rm = TRUE),
+    avg_price = mean(price_floz, na.rm = TRUE)
+  )
+
+```
+
+## Counting
+
+```{r}
+
+# Popular brand
+
+beer_markets %>%
+  count(brand, sort = TRUE) %>%
+  head(10)
+
+```
+
+## Filtering
+
+```{r}
+
+# Promotional purchases
+
+promo_beers <- beer_markets %>%
+  filter(promo == 1)
+
+promo_beers %>%
+  summarise(
+    avg_spending = mean(dollar_spent, na.rm = TRUE)
+  )
+
+```
+
+## Grouped summaries
+
+```{r}
+
+beer_markets %>%
+  group_by(region) %>%
+  summarise(
+    avg_spending = mean(dollar_spent, na.rm = TRUE),
+    avg_quantity = mean(quantity, na.rm = TRUE)
+  )
+
+```
+
+## Regression models
+
+```{r}
+
+model1 <- lm(
+  log(price_floz) ~
+    market +
+    brand +
+    container +
+    log(beer_floz),
+  data = beer_markets
+)
+
+model2 <- lm(
+  log(price_floz) ~
+    market +
+    brand +
+    container +
+    log(beer_floz) +
+    brand:log(beer_floz),
+  data = beer_markets
+)
+
+library(stargazer)
+
+stargazer(
+  model1,
+  model2,
+  type = "text"
+)
+
+library(modelsummary)
+
+modelsummary(
+  list(
+    "Model 1" = model1,
+    "Model 2" = model2
+  ),
+  statistic = "std.error",
+  stars = TRUE,
+  output = "markdown"
+)
+
+
+```
+
+## ggplot visualization
+
+```{r}
+
+log(price_floz) ~ log(beer_floz)
+
+beer_markets |>
+  filter(
+    container %in% c("CAN", "NON_REFILLABLE_BOTTLE"),
+    price_floz > 0,
+    beer_floz > 0
+  ) |>
+  ggplot(aes(x = beer_floz, y = price_floz)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(
+    title = "Beer Volume and Price per Fluid Ounce",
+    subtitle = "Larger beer purchases tend to have lower unit prices",
+    x = "Beer Volume (fluid ounces, log scale)",
+    y = "Price per Fluid Ounce (log scale)"
+  ) +
+  theme_minimal()
+
+```
+
+The plot shows a negative relationship between beer volume and price per fluid ounce. Larger beer purchases tend to have lower unit prices, suggesting a quantity discount pattern in beer markets.
