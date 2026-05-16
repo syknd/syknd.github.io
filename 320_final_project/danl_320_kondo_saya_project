@@ -149,7 +149,19 @@ df_raw <- read_csv("C:/Users/syknd/OneDrive/ドキュメント/Capstone/preproce
 
 I selected ESG report observations from 2020 and 2021. These two years were used because they provided the strongest overlap between the sustainability report dataset and the financial dataset.
 
-```{r data-preparation}
+```{r}
+
+df_raw_2019 <- df_raw %>% 
+  filter(year == 2019) %>% 
+  select(ticker, year)
+
+df_raw_2020 <- df_raw %>% 
+  filter(year == 2020) %>% 
+  select(ticker, year)
+
+df_raw_2021 <- df_raw %>% 
+  filter(year == 2021) %>% 
+  select(ticker, year)
 
 df_raw_2020_1 <- df_raw %>% 
   filter(year == 2020) 
@@ -161,13 +173,17 @@ df_raw_panel_20_21 <- bind_rows(df_raw_2020_1, df_raw_2021_1) %>%
   rename(Ticker = ticker) %>%
   arrange(Ticker, year)
 
+df_raw_panel_19_21 <- df_raw_2019 %>% 
+  inner_join(df_raw_2020, by = "ticker") %>% 
+  inner_join(df_raw_2021, by = "ticker")
+
 ```
 
 ## Preparing the Financial and Industry Data
 
 The financial dataset contained company-level financial and industry information for 2020 and 2021. I selected the variables most relevant to the project and added a year variable to each dataset before combining them.
 
-```{r data-preparation}
+```{r}
 
 financial_20 <- read_csv("C:/Users/syknd/OneDrive/ドキュメント/Capstone/sp500_2020_financial_performance.csv")
 
@@ -198,7 +214,7 @@ These variables provided industry and financial context for each firm, allowing 
 
 The ESG sustainability report data and the financial dataset were joined by company ticker and year. This created a company-year dataset that included ESG scores, sustainability report text, industry classifications, and financial variables.
 
-```{r data-preparation}
+```{r}
 
 df_merged <- df_raw_panel_20_21 %>%
   left_join(financial_20_21_1, by = c("Ticker", "year")) %>%
@@ -208,7 +224,7 @@ df_merged <- df_raw_panel_20_21 %>%
 
 After joining the datasets, I kept only firms with observations in both 2020 and 2021. This created a balanced two-year panel, meaning each company appeared once in 2020 and once in 2021.
 
-```{r data-preparation}
+```{r}
 
 df_merged <- df_merged %>%
   group_by(Ticker) %>%
@@ -223,7 +239,7 @@ This filtering step was important because the project compares communication and
 
 To measure sustainability communication, I created several keyword groups related to different sustainability themes. These groups allowed the text in each company’s sustainability report to be transformed into measurable variables.
 
-```{r data-preparation}
+```{r}
 
 kw_sustainability_core <- c(
   "sustainability", "sustainable", "esg", "environment",
@@ -272,6 +288,7 @@ kw_action_investment <- c(
   "implementation"
 )
 
+
 ```
 
 These groups were designed to capture different types of sustainability communication. For example, climate-related terms measure discussion of emissions and carbon issues, while governance/reporting terms capture disclosure, compliance, and ESG reporting language.
@@ -280,7 +297,7 @@ These groups were designed to capture different types of sustainability communic
 
 The preprocessed_content variable contained the cleaned report text, but additional cleaning was applied to make the text more consistent. HTML tags, URLs, HTML entities, punctuation, numbers, and extra spaces were removed. The text was then tokenized into individual words.
 
-```{r data-preparation}
+```{r}
 
 df_words <- df_merged %>%
   mutate(
@@ -307,7 +324,7 @@ This step transformed each sustainability report into a word-level dataset. Each
 
 After tokenizing the text, I assigned each word to one of the sustainability keyword groups. Words that did not belong to one of the selected sustainability categories were labeled as kw_other.
 
-```{r data-preparation}
+```{r}
 
 df_words_selected <- df_words %>% 
   mutate(
@@ -322,6 +339,26 @@ df_words_selected <- df_words %>%
     )
   )
 
+df_concept_prop <- df_words_selected %>%
+  group_by(Ticker, year, concept_group) %>%
+  summarize(
+    group_n = sum(n),
+    .groups = "drop"
+  ) %>%
+  group_by(Ticker, year) %>%
+  mutate(
+    concept_prop = group_n / sum(group_n)
+  ) %>%
+  ungroup() %>%
+  arrange(Ticker, year, desc(concept_prop))
+
+df_change <- df_concept_prop %>%
+  select(Ticker, year, concept_group, concept_prop) %>%
+  pivot_wider(
+    names_from = year,
+    values_from = concept_prop
+  ) 
+
 ```
 
 This transformation made it possible to measure not only how much firms talked about sustainability overall, but also which specific sustainability themes they emphasized.
@@ -330,7 +367,7 @@ This transformation made it possible to measure not only how much firms talked a
 
 Because reports differ in length, raw keyword counts could be misleading. A company with a longer report might use more sustainability keywords simply because the report contains more words overall. To make comparisons fair, I divided keyword counts by the total number of words in each company-year report.
 
-```{r data-preparation}
+```{r}
 
 df_total_words <- df_words %>%
   group_by(Ticker, year) %>%
@@ -352,7 +389,6 @@ df_combined_prop <- df_combined_concept %>%
     combined_prop = keyword_total / total_words
   ) %>%
   arrange(Ticker, year, combined_prop)
-
 ```
 
 The resulting combined_prop variable measures the proportion of report words that belonged to each sustainability keyword group. This became the main measure of sustainability communication intensity.
@@ -361,36 +397,77 @@ The resulting combined_prop variable measures the proportion of report words tha
 
 The keyword proportion data were reshaped from long format to wide format so that each keyword group became its own variable. Missing keyword proportions were replaced with zero because a missing value meant that a company did not use words from that keyword group in that year.
 
-```{r data-preparation}
+```{r}
 
-df_outcomes <- df_merged %>% 
-  select(Ticker, year, e_score, s_score, g_score, total_score)
+library(plm)
+library(lmtest)
+library(sandwich)
+library(stargazer)
+
+financials <- bind_rows(financial_20 %>% mutate(year = 2020),
+                        financial_21 %>% mutate(year = 2021)) %>% 
+  relocate(year, .after = Ticker) %>% 
+  select(-YahooTicker, -Company, -(Headquarters:EndClose),
+         -(PriceReturnPct:FiscalYear))
+
+financials_sum <- financials %>% 
+  skimr::skim() %>% 
+  filter(complete_rate > .8)
+
+financials_selected <- financials %>% 
+  select(financials_sum$skim_variable)
+
+df_raw_panel <- df_raw %>% 
+  filter(year %in% c(2019, 2020, 2021),
+         ticker %in% df_raw_panel_19_21$ticker)
+
+df_outcomes <- df_raw_panel %>% 
+  select(ticker, year, e_score:total_score) %>% 
+  rename(Ticker = ticker)
 
 df <- df_combined_prop %>% 
   select(-keyword_total, -total_words) %>% 
   mutate(combined_prop = ifelse(is.na(combined_prop), 0, combined_prop)) %>% 
-  pivot_wider(
-    names_from = concept_group,
-    values_from = combined_prop
-  ) %>% 
-  left_join(financial_20_21_1, by = c("Ticker", "year")) %>% 
-  left_join(df_outcomes, by = c("Ticker", "year"))
+  pivot_wider(names_from = "concept_group",
+              values_from = "combined_prop") %>% 
+  left_join(financials_selected,
+            by = c("Ticker", "year")) %>% 
+  left_join(df_outcomes,
+            by = c("Ticker", "year"))
 
 ```
 
 Then, missing values in keyword group variables were replaced with zero.
 
-```{r data-preparation}
+```{r}
 
-df_panel <- df %>% 
+df_sum <- df %>% 
+  skimr::skim()
+
+
+df_panel <- pdata.frame(df, index = c("Ticker", "year")) %>% 
   mutate(
-    kw_pollution_ecosystem = ifelse(is.na(kw_pollution_ecosystem), 0, kw_pollution_ecosystem),
-    kw_climate_emissions = ifelse(is.na(kw_climate_emissions), 0, kw_climate_emissions),
-    kw_action_investment = ifelse(is.na(kw_action_investment), 0, kw_action_investment),
-    kw_sustainability_core = ifelse(is.na(kw_sustainability_core), 0, kw_sustainability_core),
-    kw_energy_resources = ifelse(is.na(kw_energy_resources), 0, kw_energy_resources),
-    kw_governance_reporting = ifelse(is.na(kw_governance_reporting), 0, kw_governance_reporting),
-    kw_other = ifelse(is.na(kw_other), 0, kw_other)
+    kw_pollution_ecosystem = ifelse(is.na(kw_pollution_ecosystem), 
+                                  0, kw_pollution_ecosystem),
+    
+    kw_climate_emissions = ifelse(is.na(kw_climate_emissions), 
+                                  0, kw_climate_emissions),
+    
+    kw_action_investment = ifelse(is.na(kw_action_investment), 
+                                  0, kw_action_investment),
+    
+    kw_sustainability_core = ifelse(is.na(kw_sustainability_core), 
+                                  0, kw_sustainability_core),
+    
+    kw_energy_resources = ifelse(is.na(kw_energy_resources), 
+                                  0, kw_energy_resources),
+    
+    kw_governance_reporting = ifelse(is.na(kw_governance_reporting), 
+                                     0, kw_governance_reporting),
+    
+    kw_other = ifelse(is.na(kw_other),
+                      0, kw_other),
+    
   )
 
 ```
@@ -401,20 +478,15 @@ This created a clean analysis-ready dataset where each row represented one firm 
 
 The final dataset selected the main variables needed for visualization and descriptive analysis. I removed the kw_other category because the project focuses on sustainability-related keyword groups, not all remaining words.
 
-```{r data-preparation}
+```{r}
 
 df_panel_selected_90 <- df_panel %>% 
-  select(
-    Ticker, year, GICSSector, GICSSubIndustry,
-    -kw_other,
-    TotalReturnPct, Assets, StockholdersEquity, OperatingCashFlow,
-    e_score, s_score, g_score, total_score
-  ) %>% 
+  select(Ticker:GICSSubIndustry, -kw_other,
+         TotalReturnPct, Assets, StockholdersEquity, OperatingCashFlow,
+         e_score:total_score) %>% 
   drop_na() %>% 
   group_by(Ticker) %>% 
-  filter(n() == 2) %>%
-  ungroup()
-
+  filter(n() == 2) 
 ```
 
 After this step, the final dataset contained 316 observations, representing 158 companies observed in both 2020 and 2021.
@@ -514,8 +586,6 @@ ggplot(df_plot, aes(x = proportion, y = e_score)) +
   )
 
 ```
-
-![](310_scatter_plot.jpeg)
 
 The scatterplots examine relationships between sustainability-related communication and environmental ESG scores (e_score). Overall, most keyword categories show positive associations with environmental performance, although the strength of the relationships varies considerably.
 
@@ -625,12 +695,47 @@ using stratified sampling based on environmental score:
 
 ```{r}
 
+set.seed(123)
+
+# Select variables for ML
+df_ml <- df_panel_selected_90 |>
+  select(
+    Ticker, year,
+    kw_pollution_ecosystem,
+    kw_climate_emissions,
+    kw_action_investment,
+    kw_sustainability_core,
+    kw_energy_resources,
+    kw_governance_reporting,
+    GICSSector,
+    GICSSubIndustry,
+    TotalReturnPct,
+    Assets,
+    StockholdersEquity,
+    OperatingCashFlow,
+    e_score,
+    s_score,
+    g_score,
+    total_score
+  ) |>
+  mutate(
+    year = as.factor(year),
+    GICSSector = as.factor(GICSSector),
+    GICSSubIndustry = as.factor(GICSSubIndustry)
+  ) |>
+  drop_na()
+
+glimpse(df_ml)
+
+set.seed(123)
+
 data_split <-
 initial_split(
 df_ml,
 prop = 0.8,
 strata = e_score
 )
+
 
 ```
 
@@ -639,6 +744,9 @@ Stratification helps preserve the distribution of environmental scores across tr
 Within the training data, 5-fold cross-validation was used for hyperparameter tuning:
 
 ```{r}
+
+train_data <- training(data_split)
+test_data  <- testing(data_split)
 
 cv_folds <-
 vfold_cv(
@@ -676,6 +784,33 @@ LASSO regression performs variable selection while shrinking less informative co
 Hyperparameters were tuned using grid search over penalty values:
 
 ```{r}
+library(recipes)
+
+esg_recipe <- recipe(
+  e_score ~ year +
+    kw_pollution_ecosystem +
+    kw_climate_emissions +
+    kw_action_investment +
+    kw_sustainability_core +
+    kw_energy_resources +
+    kw_governance_reporting +
+    GICSSector +
+    GICSSubIndustry +
+    TotalReturnPct +
+    Assets +
+    StockholdersEquity +
+    OperatingCashFlow,
+  data = train_data
+) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_zv(all_predictors()) |>
+  step_normalize(all_numeric_predictors())
+
+library(workflows)
+library(parsnip)
+library(tune)
+library(dials)
+library(yardstick)
 
 lasso_model <- linear_reg(
   penalty = tune(),
@@ -886,8 +1021,8 @@ The most important variables include:
 - kw_energy_resources
 - kw_pollution_ecosystem
 - GICSSector_Materials
-- GICSSector_Energy
 - kw_sustainability_core
+- kw_action_investment
 
 This suggests:
 
@@ -1020,10 +1155,10 @@ XGBoost produced similar patterns but ranked variables slightly differently.
 
 The strongest predictors were:
 
-- GICSSector_Materials
-- GICSSector_Energy
-- kw_pollution_ecosystem
 - kw_energy_resources
+- GICSSector_Materials
+- kw_pollution_ecosystem
+- GISSubIndustry_Oil
 - kw_sustainability_core
 
 Again, industry variables dominate.
@@ -1100,6 +1235,53 @@ Variables included:
 
 ```{r}
 
+esg_clust <- df_panel_selected_90 |>
+  ungroup() |>
+  select(
+    kw_pollution_ecosystem,
+    kw_climate_emissions,
+    kw_action_investment,
+    kw_sustainability_core,
+    kw_energy_resources,
+    kw_governance_reporting,
+    e_score,
+    s_score,
+    g_score,
+    total_score
+  )
+
+esg_scaled <- esg_clust |>
+  scale()
+
+set.seed(320)
+
+km2 <- kmeans(esg_scaled, centers = 2, nstart = 25)
+km3 <- kmeans(esg_scaled, centers = 3, nstart = 25)
+km4 <- kmeans(esg_scaled, centers = 4, nstart = 25)
+km5 <- kmeans(esg_scaled, centers = 5, nstart = 25)
+
+tot.withinss <- c(
+  "km2" = km2$tot.withinss,
+  "km3" = km3$tot.withinss,
+  "km4" = km4$tot.withinss,
+  "km5" = km5$tot.withinss
+)
+
+tot.withinss
+
+tibble(
+  k = 2:5,
+  total_withinss = tot.withinss
+) |>
+  ggplot(aes(x = k, y = total_withinss)) +
+  geom_line() +
+  geom_point(size = 3) +
+  labs(
+    title = "Total Within-Cluster Sum of Squares by k",
+    x = "Number of Clusters",
+    y = "Total Within-Cluster SS"
+  )
+
 esg_km <- df_panel_selected_90 |>
   ungroup() |>
   mutate(cluster = km4$cluster)
@@ -1152,42 +1334,40 @@ Each color represents a different cluster.
 
 **Cluster 1 (red)**
 
-Cluster 1 consists primarily of firms with:
+Cluster 1 contains very few firms and appears to include outlier observations with relatively high environmental scores and moderate sustainability communication.
 
-Lower sustainability communication Lower environmental scores
-
-These firms generally show weaker sustainability emphasis in both communication and measurable environmental outcomes.
-
-This cluster may represent firms with relatively limited sustainability engagement overall.
+These firms may represent companies with unusually strong environmental performance compared with their communication intensity, though the small number of observations limits interpretation.
 
 **Cluster 2 (green)**
 
-Cluster 2 shows:
+Cluster 2 includes firms with:
 
 - Moderate sustainability communication
-- Moderate environmental scores
+- Low to moderate environmental scores
 
-These firms demonstrate some alignment between sustainability messaging and environmental performance but do not stand out as leaders.
+These firms show some sustainability engagement but relatively weaker environmental outcomes compared with higher-performing clusters.
+
+This cluster may represent firms where sustainability communication is not strongly associated with environmental performance.
 
 **Cluster 3 (blue)**
 
 Cluster 3 contains firms with:
 
-- Relatively high environmental scores
 - Moderate to high sustainability communication
+- Moderate to high environmental scores
 
-This cluster may represent firms where sustainability communication aligns more closely with stronger environmental outcomes.
+This cluster includes many firms with the strongest environmental performance, suggesting sustainability communication and environmental outcomes may align more closely for these companies.
 
-These firms appear to combine sustainability messaging with comparatively stronger environmental performance.
+However, variability within the cluster indicates the relationship is imperfect.
 
 **Cluster 4 (purple)**
 
-Cluster 4 contains relatively few observations but includes firms with:
+Cluster 4 is concentrated around:
 
-- Very high environmental scores
-- Moderate communication levels
+- Lower sustainability communication
+- Lower environmental scores
 
-These firms may achieve strong environmental performance without relying disproportionately on sustainability communication.
+These firms tend to have weaker sustainability emphasis in both communication and environmental performance.
 
 This suggests environmental outcomes and communication intensity do not always increase together.
 
