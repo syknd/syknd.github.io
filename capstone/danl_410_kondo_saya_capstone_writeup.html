@@ -395,13 +395,31 @@ window.Quarto = {
 <section id="panel-regression-framework" class="level2">
 <h2 class="anchored" data-anchor-id="panel-regression-framework">Panel Regression Framework</h2>
 <p>The primary outcome variable is the firm’s environmental ESG score (E score). Independent variables include lagged sustainability communication measures, while financial and industry controls account for differences in firm characteristics.</p>
-<p>$$</p>
-</section>
-</section>
-<section id="it" class="level1">
-<h1>_{it}</h1>
-<p><em>0 + <em>1 KW</em>{,i,t-1} + <em>2 KW</em>{,i,t-1} + <em>3 KW</em>{,i,t-1} + <em>4 KW</em>{,i,t-1} + <em>5 KW</em>{,i,t-1} + <em>6 KW</em>{,i,t-1} + X</em>{it} + _i + <em>t + </em>{it}</p>
-<p>$$</p>
+<p><span class="math display">\[
+E_{Score,it}
+=
+\beta_0
++
+\beta_1 KW_{Pollution,i,t-1}
++
+\beta_2 KW_{Climate,i,t-1}
++
+\beta_3 KW_{Action,i,t-1}
++
+\beta_4 KW_{Sustainability,i,t-1}
++
+\beta_5 KW_{Energy,i,t-1}
++
+\beta_6 KW_{Governance,i,t-1}
++
+\delta X_{it}
++
+\alpha_i
++
+\lambda_t
++
+\varepsilon_{it}
+\]</span></p>
 <p>where:</p>
 <ul>
 <li><p><span class="math inline">\(E\_Score_{it}\)</span>: environmental ESG score for firm <span class="math inline">\(i\)</span> at year <span class="math inline">\(t\)</span></p></li>
@@ -419,6 +437,7 @@ window.Quarto = {
 <li><p>Operating cash flow</p></li>
 </ul>
 <p>Industry effects are controlled using GICS sector and subindustry classifications when applicable.</p>
+</section>
 <section id="model-specifications" class="level2">
 <h2 class="anchored" data-anchor-id="model-specifications">Model Specifications</h2>
 <p>Four regression specifications are estimated to compare results across different assumptions:</p>
