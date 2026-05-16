@@ -497,7 +497,7 @@ After this step, the final dataset contained 316 observations, representing 158 
 
 Before examining the relationship between sustainability communication and environmental performance, I calculated descriptive statistics for environmental ESG scores by year.
 
-```{r summary-statistics}
+```{r}
 
 df_panel_selected_90 %>%
   group_by(year) %>%
@@ -517,7 +517,7 @@ However, the large standard deviations and wide range between minimum and maximu
 
 I also visualized this distribution using a boxplot.
 
-```{r summary-statistics}
+```{r}
 
 ggplot(df_panel_selected_90,
        aes(x = factor(year), y = e_score)) +
@@ -726,6 +726,8 @@ df_ml <- df_panel_selected_90 |>
   drop_na()
 
 glimpse(df_ml)
+
+library(rsample)
 
 set.seed(123)
 
@@ -1521,3 +1523,4 @@ Future work could improve the analysis by:
 # References
 
 *Checking your browser - reCAPTCHA. (n.d.). <https://www.kaggle.com/datasets/jaidityachopra/esg-sustainability-reports-of-s-and-p-500-companies/data>*
+
