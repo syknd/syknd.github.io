@@ -231,8 +231,7 @@ For each firm-year observation, keyword frequencies were converted into proporti
 
 The primary outcome variable is the firm's environmental ESG score (E score). Independent variables include lagged sustainability communication measures, while financial and industry controls account for differences in firm characteristics.
 
-$$
-E\_Score_{it}
+$$E\_Score_{it}
 =
 \beta_0
 +
@@ -254,8 +253,7 @@ E\_Score_{it}
 +
 \lambda_t
 +
-\varepsilon_{it}
-$$
+\varepsilon_{it}$$
 
 where:
 
