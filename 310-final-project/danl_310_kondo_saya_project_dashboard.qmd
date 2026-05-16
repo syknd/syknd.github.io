@@ -1,0 +1,238 @@
+---
+title: "Sustainability Talk vs. ESG Performance"
+author: "Saya Kondo"
+format: 
+  dashboard:
+    orientation: rows
+---
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(readxl)
+library(plotly)
+library(DT)
+library(scales)
+
+df <- read_excel("C:/Users/syknd/OneDrive/ドキュメント/syknd.github.io/410-df_panel_selected_90.xlsx") |>
+  mutate(
+    year = as.character(year),
+    total_text_language =
+      kw_pollution_ecosystem_lag +
+      kw_climate_emissions_lag +
+      kw_action_investment_lag +
+      kw_sustainability_core_lag +
+      kw_governance_reporting_lag +
+      kw_energy_resources_lag
+  )
+```
+
+# Overview
+
+## Row {height=25%}
+
+```{r}
+#| content: valuebox
+#| title: "Companies"
+
+list(
+  icon = "building",
+  color = "primary",
+  value = n_distinct(df$Ticker)
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Observations"
+
+list(
+  icon = "table",
+  color = "info",
+  value = nrow(df)
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Average E Score"
+
+list(
+  icon = "leaf",
+  color = "success",
+  value = round(mean(df$e_score, na.rm = TRUE), 2)
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Sectors"
+
+list(
+  icon = "diagram-3",
+  color = "warning",
+  value = n_distinct(df$GICSSector)
+)
+```
+
+## Row {height=75%}
+
+```{r}
+#| title: "Sustainability Language vs. Environmental Score"
+
+p <- ggplot(
+  df,
+  aes(
+    x = total_text_language,
+    y = e_score,
+    color = GICSSector,
+    text = paste(
+      "Ticker:", Ticker,
+      "<br>Year:", year,
+      "<br>Sector:", GICSSector,
+      "<br>Environmental Score:", round(e_score, 2),
+      "<br>Total Sustainability Language:", round(total_text_language, 4)
+    )
+  )
+) +
+  geom_point(alpha = 0.75, size = 2.5) +
+  geom_smooth(method = "lm", se = FALSE, color = "black") +
+  labs(
+    x = "Total Sustainability Language",
+    y = "Environmental Score"
+  ) +
+  theme_minimal()
+
+ggplotly(p, tooltip = "text")
+```
+
+# Sector Patterns
+
+## Row
+
+```{r}
+#| title: "Average Environmental Score by Sector"
+
+sector_e <- df |>
+  group_by(GICSSector) |>
+  summarise(
+    average_e_score = mean(e_score, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(average_e_score)
+
+p <- ggplot(
+  sector_e,
+  aes(
+    x = average_e_score,
+    y = reorder(GICSSector, average_e_score),
+    text = paste(
+      "Sector:", GICSSector,
+      "<br>Average E Score:", round(average_e_score, 2)
+    )
+  )
+) +
+  geom_col() +
+  labs(
+    x = "Average Environmental Score",
+    y = NULL
+  ) +
+  theme_minimal()
+
+ggplotly(p, tooltip = "text")
+```
+
+```{r}
+#| title: "Average Sustainability Language by Sector"
+
+sector_text <- df |>
+  group_by(GICSSector) |>
+  summarise(
+    average_text = mean(total_text_language, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(average_text)
+
+p <- ggplot(
+  sector_text,
+  aes(
+    x = average_text,
+    y = reorder(GICSSector, average_text),
+    text = paste(
+      "Sector:", GICSSector,
+      "<br>Average Sustainability Language:", round(average_text, 4)
+    )
+  )
+) +
+  geom_col() +
+  labs(
+    x = "Average Sustainability Language",
+    y = NULL
+  ) +
+  theme_minimal()
+
+ggplotly(p, tooltip = "text")
+```
+
+# ESG Breakdown
+
+## Row
+
+```{r}
+#| title: "Average ESG Scores by Sector"
+
+esg_long <- df |>
+  group_by(GICSSector) |>
+  summarise(
+    Environmental = mean(e_score, na.rm = TRUE),
+    Social = mean(s_score, na.rm = TRUE),
+    Governance = mean(g_score, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  pivot_longer(
+    cols = c(Environmental, Social, Governance),
+    names_to = "score_type",
+    values_to = "average_score"
+  )
+
+p <- ggplot(
+  esg_long,
+  aes(
+    x = average_score,
+    y = reorder(GICSSector, average_score),
+    fill = score_type,
+    text = paste(
+      "Sector:", GICSSector,
+      "<br>Score Type:", score_type,
+      "<br>Average Score:", round(average_score, 2)
+    )
+  )
+) +
+  geom_col(position = "dodge") +
+  labs(
+    x = "Average Score",
+    y = NULL,
+    fill = "Score Type"
+  ) +
+  theme_minimal()
+
+ggplotly(p, tooltip = "text")
+```
+
+# Data
+
+## Row
+
+```{r}
+#| title: "Project Dataset"
+
+df |>
+  datatable(
+    options = list(
+      pageLength = 10,
+      scrollX = TRUE
+    ),
+    rownames = FALSE
+  )
+```
