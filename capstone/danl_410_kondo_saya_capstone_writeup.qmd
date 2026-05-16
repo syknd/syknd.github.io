@@ -379,15 +379,15 @@ The substantive interpretation remains unchanged: most sustainability communicat
 
 ## Visualizations and interpretations
 
-![](/410_confidence_interval.jpeg)
+![](410_confidence_interval.jpeg)
 
 This figure presents coefficient estimates and 95% confidence intervals from the preferred two-way fixed effects model. Most sustainability communication variables have confidence intervals overlapping zero, suggesting weak evidence of systematic relationships with environmental ESG performance after controlling for firm and year effects. Among the keyword categories, action and investment language shows the strongest positive association with environmental ESG scores, indicating that communication focused on concrete sustainability actions may align more closely with measurable environmental outcomes. In contrast, general sustainability terminology, climate-related language, and pollution-related communication do not demonstrate robust relationships with environmental performance. Overall, the findings suggest that increases in sustainability communication alone do not consistently correspond to improved environmental outcomes, highlighting potential gaps between sustainability rhetoric and substantive environmental performance.
 
-![](/410_confidence_interval_1.jpeg)
+![](410_confidence_interval_1.jpeg)
 
 This figure compares coefficient estimates across pooled OLS, year fixed effects, firm fixed effects, and two-way fixed effects models under industry, sector, and combined control specifications. Overall, coefficient patterns remain relatively stable across control structures, suggesting the findings are robust to alternative industry classifications. A notable pattern is that general sustainability language shows stronger positive associations in simpler models but weakens after introducing firm fixed effects, indicating that differences between firms explain much of the relationship. In contrast, action-oriented sustainability communication consistently exhibits the strongest positive association with environmental ESG performance across more restrictive specifications. Most confidence intervals overlap zero, however, implying limited statistical evidence that increases in sustainability communication within firms over time systematically predict stronger environmental outcomes. These findings suggest that concrete sustainability actions may align more closely with environmental performance than broad sustainability rhetoric.
 
-![](/410_Rsq_comparison.jpeg)
+![](410_Rsq_comparison.jpeg)
 
 A figure above compares $R^2$ and adjusted $R^2$ values across pooled OLS, year fixed effects, firm fixed effects, and two-way fixed effects models under alternative control specifications. Model fit improves substantially after introducing firm fixed effects, with adjusted $R^2$ increasing from approximately 0.70–0.89 in pooled and year fixed effects models to approximately 0.97–0.98 in firm and two-way fixed effects models. This suggests that persistent firm-specific characteristics explain a large proportion of variation in environmental ESG scores, whereas year-specific effects contribute relatively little additional explanatory power. Similar $R^2$ patterns across specifications indicate the findings are robust to different control structures. However, high model fit should be interpreted cautiously, as it likely reflects stable differences across firms rather than strong predictive effects of sustainability communication variables alone.
 
