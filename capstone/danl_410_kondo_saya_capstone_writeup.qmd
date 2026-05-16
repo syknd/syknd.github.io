@@ -1,5 +1,6 @@
 ---
-title: "danl_410_capstone_writeup"
+title: "DANL 410 Capstone: Do Sustainability Marketing Claims Reflect Reality? Evidence of Greenwashing in Corporate ESG Performance
+"
 format: html
 editor: visual
 ---
@@ -110,7 +111,7 @@ Higher values indicate stronger environmental performance.
 Sustainability communication is measured using keyword proportions derived from ESG report text. Text was categorized into six conceptual groups:
 
 | Variable | Interpretation |
-|----|----|
+|------------------------------------|------------------------------------|
 | `kw_pollution_ecosystem_lag` | Pollution, biodiversity, ecosystem communication |
 | `kw_climate_emissions_lag` | Climate, carbon, emissions communication |
 | `kw_action_investment_lag` | Sustainability actions and investments |
