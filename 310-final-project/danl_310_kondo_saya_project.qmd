@@ -891,3 +891,5 @@ Further analysis could also incorporate additional variables, such as firm size,
 # References
 
 Checking your browser - reCAPTCHA. (n.d.-a). Retrieved March 19, 2026, from https://www.kaggle.com/datasets/jaidityachopra/esg-sustainability-reports-of-s-and-p-500-companies/data
+
+
