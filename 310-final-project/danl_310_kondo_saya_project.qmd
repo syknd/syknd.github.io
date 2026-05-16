@@ -834,7 +834,7 @@ The dashboard includes:
 
 ## Dashboard
 
-- **Dashboard:** [http://localhost:7337/#data](YOUR_DASHBOARD_URL)
+- **Dashboard:** [Dashboard](danl_310_kondo_saya_project_dashboard.qmd)
 
 The dashboard allows users to interactively explore patterns between sustainability-related language in corporate reports and ESG performance across firms and sectors. Rather than presenting only static results, the dashboard enables users to investigate the data through multiple visual summaries and comparisons.
 
